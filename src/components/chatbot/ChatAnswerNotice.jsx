@@ -1,13 +1,24 @@
-import { FileQuestion, Info, ServerOff } from 'lucide-react';
+import { FileQuestion, FileText, Info, ServerOff } from 'lucide-react';
 import { cn } from '../../utils/cn';
 
+const SERVICE_DOWN = {
+  icon: ServerOff,
+  tone: 'amber',
+  title: 'AI service unavailable',
+  text: 'The language model could not be reached, so this reply is a service notice rather than a document answer. Please try again in a moment.',
+};
+
 const NOTICES = {
-  'ollama-unavailable': {
-    icon: ServerOff,
+  // The model is down but the answer quotes the matching document passage.
+  'extractive-fallback': {
+    icon: FileText,
     tone: 'amber',
-    title: 'AI service unavailable',
-    text: 'The language model could not be reached, so this reply is a service notice rather than a document answer. Please try again in a moment.',
+    title: 'Showing the document passage',
+    text: 'The AI summariser is temporarily unavailable, so the reply quotes the matching passage from the university documents instead of a written answer.',
   },
+  'llm-unavailable': SERVICE_DOWN,
+  // Emitted by older backend builds; same meaning as llm-unavailable.
+  'ollama-unavailable': SERVICE_DOWN,
   'no-documents': {
     icon: FileQuestion,
     tone: 'slate',
